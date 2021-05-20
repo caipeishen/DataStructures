@@ -39,8 +39,7 @@ public class SparseArray {
             }
         }
 
-        System.out.println();
-        System.out.println("总行数：" + weight + "，总列数：" + height + "，数字总数：" + count);
+        System.out.println("原始数组总行数：" + weight + "，总列数：" + height + "，数字总数：" + count);
         System.out.println();
 
         // 行数多一行 列数固定为3
@@ -72,6 +71,36 @@ public class SparseArray {
             }
             System.out.println();
         }
+
+        System.out.println("稀疏数组总行数：" + sparseArray.length + "，总列数：" + sparseArray[0].length + "，数字总数：" + sparseArray[0][2]);
+        System.out.println();
+
+
+        // 声明恢复数组
+        int recoverArray[][] = new int[sparseArray[0][0]][sparseArray[0][1]];
+
+        // 恢复数组
+        for (int i = 1; i < sparseArray.length; i++) {
+            for (int j = 0; j < sparseArray[0].length; j++) {
+                int num = sparseArray[i][2];
+                if (num != 0) {
+                    int w = sparseArray[i][0];
+                    int h = sparseArray[i][1];
+                    recoverArray[w][h] = sparseArray[i][2];
+                }
+            }
+        }
+
+        System.out.println("==================恢复数组==================");
+
+        // 打印恢复数组
+        for (int[] wNums : recoverArray) {
+            for (int hNums : wNums) {
+                System.out.printf("%d\t", hNums);
+            }
+            System.out.println();
+        }
+        System.out.println("恢复数组总行数：" + recoverArray.length + "，总列数：" + recoverArray[0].length + "，数字总数：" + count);
 
     }
 
