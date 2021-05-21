@@ -63,67 +63,68 @@ public class ArrayQueueDemo {
         System.out.println("程序退出~~");
     }
 
+    // 使用数组模拟队列-编写一个ArrayQueue类
+    static class ArrayQueue {
+        private int maxSize; // 表示数组的最大容量
+        private int front; // 队列头
+        private int rear; // 队列尾
+        private int[] arr; // 该数据用于存放数据, 模拟队列
+
+
+        public ArrayQueue(int maxSize) {
+            this.maxSize = maxSize;
+            this.arr = new int[maxSize];
+            this.front = -1; // 指向队列头部，分析出front是指向队列头的前一个位置.
+            this.rear = -1; // 指向队列尾，指向队列尾的数据(即就是队列最后一个数据)
+        }
+
+        public boolean isEmpty() {
+            return front == rear;
+        }
+
+        public boolean isFull() {
+            return rear == maxSize-1;
+        }
+
+        public void addQueue(int num) {
+            if (isFull()) {
+                System.out.println("队列已满...");
+                return;
+            }
+            rear++;
+            arr[rear] = num;
+        }
+
+        public int getQueue() {
+            if (isEmpty()) {
+                throw new RuntimeException("队列空，不能取数据");
+            }
+            front++; // front后移
+            return arr[front];
+        }
+
+        // 显示队列的所有数据
+        public void showQueue() {
+            // 遍历
+            if (isEmpty()) {
+                System.out.println("队列空的，没有数据~~");
+                return;
+            }
+            for (int i = 0; i < arr.length; i++) {
+                System.out.printf("arr[%d]=%d\n", i, arr[i]);
+            }
+        }
+
+        // 显示队列的头数据， 注意不是取出数据
+        public int headQueue() {
+            // 判断
+            if (isEmpty()) {
+                throw new RuntimeException("队列空的，没有数据~~");
+            }
+            return arr[front + 1];
+        }
+    }
+
 }
 
 
-// 使用数组模拟队列-编写一个ArrayQueue类
-class ArrayQueue {
-    private int maxSize; // 表示数组的最大容量
-    private int front; // 队列头
-    private int rear; // 队列尾
-    private int[] arr; // 该数据用于存放数据, 模拟队列
-
-
-    public ArrayQueue(int maxSize) {
-        this.maxSize = maxSize;
-        this.arr = new int[maxSize];
-        this.front = -1; // 指向队列头部，分析出front是指向队列头的前一个位置.
-        this.rear = -1; // 指向队列尾，指向队列尾的数据(即就是队列最后一个数据)
-    }
-
-    public boolean isEmpty() {
-        return front == rear;
-    }
-
-    public boolean isFull() {
-        return rear == maxSize-1;
-    }
-
-    public void addQueue(int num) {
-        if (isFull()) {
-            System.out.println("队列已满...");
-            return;
-        }
-        rear++;
-        arr[rear] = num;
-    }
-
-    public int getQueue() {
-        if (isEmpty()) {
-            throw new RuntimeException("队列空，不能取数据");
-        }
-        front++; // front后移
-        return arr[front];
-    }
-
-    // 显示队列的所有数据
-    public void showQueue() {
-        // 遍历
-        if (isEmpty()) {
-            System.out.println("队列空的，没有数据~~");
-            return;
-        }
-        for (int i = 0; i < arr.length; i++) {
-            System.out.printf("arr[%d]=%d\n", i, arr[i]);
-        }
-    }
-
-    // 显示队列的头数据， 注意不是取出数据
-    public int headQueue() {
-        // 判断
-        if (isEmpty()) {
-            throw new RuntimeException("队列空的，没有数据~~");
-        }
-        return arr[front + 1];
-    }
-}
