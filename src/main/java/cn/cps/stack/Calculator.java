@@ -22,13 +22,31 @@ public class Calculator {
         ArrayStack numStack = new ArrayStack(10);
         ArrayStack operStack = new ArrayStack(10);
 
-        String expression = "7*2*2-5+1-5+3-4"; // 15//如何处理多位数的问题？
+        String expression = "7*2*2-5+1-5+3-4"; // 18 -> 70-2*10-10 会有问题（连续减负负得正）
+
+        // 处理多位数
+        String keepNum = "";
 
         char[] chars = expression.toCharArray();
-        for (char c : chars) {
+        for (int i =0; i<chars.length; i++) {
+            char c = chars[i];
             if (!operStack.isOper(c)) {
                 // 数字
-                numStack.push(Character.getNumericValue(c));
+                int num = Character.getNumericValue(c);
+                keepNum += num;
+
+                if (i < chars.length-1) {
+                    int nextIndex = i + 1;
+                    char nextChar = chars[nextIndex];
+                    // 如果下一个是运算符，将数据放入栈中，否则继续拼接
+                    if (operStack.isOper(nextChar)) {
+                        numStack.push(Integer.parseInt(keepNum));
+                        keepNum = "";
+                    }
+                } else {
+                    numStack.push(Integer.parseInt(keepNum));
+                }
+
             } else {
                 // 运算符
                 if (operStack.isEmpty()) {
@@ -50,9 +68,6 @@ public class Calculator {
 
             }
         }
-        System.out.println(numStack.toString());
-        System.out.println(operStack.toString());
-
 
         while (true) {
             if (numStack.top == 0) {
@@ -64,10 +79,7 @@ public class Calculator {
             int value = numStack.cal(num1, num2, oper);
             numStack.push(value);
         }
-        System.out.println("结果为："+numStack.pop());
-
-
-
+        System.out.println("表达式："+expression+"的计算结果为："+numStack.pop());
     }
 
 
